@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -16,7 +17,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 // Services Imports
-import { ClientService } from "./services/client.service";
+import { ClientService } from './services/client.service';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpModule
   ],
   providers: [
     ClientService
