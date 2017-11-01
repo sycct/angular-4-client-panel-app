@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandler } from '@angular/core';
 import 'rxjs/add/operator/map';
@@ -7,10 +7,12 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { Client } from '../models/Client';
+import { PatchModel } from '../models/PatchModel';
 
 @Injectable()
 export class ClientService {
   private url = 'http://localhost:5001/api/client';
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http) { }
 
@@ -21,17 +23,23 @@ export class ClientService {
 
   getOne(id: number): Observable<Client> {
     return this.http.get(`${this.url}/${id}`)
-      .map(response => response.json().data as Client);
+      .map(response => response.json() as Client);
   }
 
   create(client: Client) {
-    return this.http.post(this.url, JSON.stringify(client))
+    return this.http.post(this.url, JSON.stringify(client), { headers: this.headers })
       .map(response => response.json())
       .catch(this.handleError);
   }
 
-  update(client: Client) {
-    return this.http.patch(`${this.url}/${client.id}`, JSON.stringify(client))
+  update(id: number, client: Client) {
+    return this.http.put(`${this.url}/${id}`, JSON.stringify(client), { headers: this.headers })
+      .map(response => response.json())
+      .catch(this.handleError);
+  }
+
+  patch(id: number, patchs: PatchModel[]) {
+    return this.http.patch(`${this.url}/${id}`, JSON.stringify(patchs), { headers: this.headers })
       .map(response => response.json())
       .catch(this.handleError);
   }

@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -22,7 +25,10 @@ import { ClientService } from './services/client.service';
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'add-client', component: AddClientComponent },
+  { path: 'client/:id', component: ClientDetailsComponent },
+  { path: 'edit-client/:id', component: EditClientComponent }
 ];
 
 @NgModule({
@@ -43,7 +49,9 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    HttpModule
+    HttpModule,
+    FormsModule,
+    FlashMessagesModule
   ],
   providers: [
     ClientService
