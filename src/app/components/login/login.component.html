@@ -1,3 +1,21 @@
-<p>
-  login works!
-</p>
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <div class="card-body">
+        <img class="mx-auto d-block" src="/assets/img/logo.png" alt="">
+        <h1 class="text-center">登陆</h1>
+        <form (submit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" [(ngModel)]="password" name="password" required>
+          </div>
+          <input type="submit" class="btn btn-primary btn-block" value="登录">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
