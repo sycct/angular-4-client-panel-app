@@ -14,18 +14,19 @@ import { AddClientComponent } from './components/add-client/add-client.component
 import { EditClientComponent } from './components/edit-client/edit-client.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 // Services Imports
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
+import { LoginCallbackComponent } from './components/login-callback/login-callback.component';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'login-callback', component: LoginCallbackComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'add-client', component: AddClientComponent },
   { path: 'client/:id', component: ClientDetailsComponent },
   { path: 'edit-client/:id', component: EditClientComponent }
@@ -41,10 +42,10 @@ const appRoutes: Routes = [
     EditClientComponent,
     NavbarComponent,
     SidebarComponent,
-    LoginComponent,
     RegisterComponent,
     SettingsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoginCallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     FlashMessagesModule
   ],
   providers: [
-    ClientService
+    ClientService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
