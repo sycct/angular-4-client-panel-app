@@ -1,3 +1,55 @@
-<p>
-  client-details works!
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <a routerLink="/" class="btn btn-link">
+      <i class="fa fa-arrow-circle-o-left"></i> 回到Dashboard</a>
+  </div>
+  <div class="col-md-6">
+    <div class="btn-group pull-right">
+      <a [routerLink]="['/edit-client', id]" class="btn btn-secondary">编辑</a>
+      <button type="button" class="btn btn-danger" (click)="onDeleteClick()">删除</button>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="card" *ngIf="client">
+  <div class="card-header">
+    <h3> {{client.firstName + ' ' + client.lastName}}</h3>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <h4>客户ID: {{id}}</h4>
+      </div>
+      <div class="col-md-4">
+        <h4 class="pull-right">
+          余额:
+          <span [class.text-danger]="!hasBalance" [class.text-success]="hasBalance">
+            {{client.balance | currency: 'USD': true}}
+          </span>
+          <small>
+            <a (click)="showBalanceUpdateInput = !showBalanceUpdateInput"><i class="fa fa-pencil"></i></a>
+          </small>
+        </h4>
+        <div class="clearfix">
+          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance(id)" class="form-inline pull-right" novalidate>
+            <div class="form-group">
+              <input type="number" class="form-control" name="balance" [(ngModel)]="client.balance">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              更新
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item">
+        Email: {{client.email}}
+      </li>
+      <li class="list-group-item">
+        联系电话: {{client.phone}}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -27,7 +27,7 @@
       <td>{{client.email}}</td>
       <td>{{client.balance}}</td>
       <td>
-        <a href="" class="btn btn-secondary btn-sm">
+        <a href="" [routerLink]="['/client', client.id]" class="btn btn-secondary btn-sm">
           <i class="fa fa-arrow-circle-o-right"></i> 明细</a>
       </td>
     </tr>
