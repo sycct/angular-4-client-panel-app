@@ -25,6 +25,9 @@ export class NavbarComponent implements OnInit {
     this.authService.loginStatusChanged.subscribe((user: User) => {
       this.loggedInUser = user;
       this.isLoggedIn = !!user;
+      if (user) {
+        this.flashMessagesService.show('登陆成功', { cssClass: 'alert alert-success', timeout: 4000 });
+      }
     });
     this.authService.checkUser();
   }
