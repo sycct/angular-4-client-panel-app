@@ -18,9 +18,10 @@ export class LoginCallbackComponent implements OnInit {
   ngOnInit() {
     this.authService.loginCallBack().subscribe(
       (user: User) => {
-        console.log('login callback user:', user);
         if (user) {
+          console.log('login callback user:', user);
           this.router.navigate(['/']);
+          window.location.href = '/';
         }
       }
     );

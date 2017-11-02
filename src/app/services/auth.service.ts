@@ -35,14 +35,10 @@ export class AuthService implements OnInit {
   loginCallBack() {
     return Observable.create(observer => {
       Observable.fromPromise(this.manager.signinRedirectCallback())
-        .subscribe(() => {
-          this.tryGetUser().subscribe((user: User) => {
-            this.loginStatusChanged.emit(user);
-            observer.next(user);
-            observer.complete();
-          }, e => {
-            observer.error(e);
-          });
+        .subscribe((user: User) => {
+          this.loginStatusChanged.emit(user);
+          observer.next(user);
+          observer.complete();
         });
     });
   }

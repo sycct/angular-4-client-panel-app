@@ -17,19 +17,20 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { LoginCallbackComponent } from './components/login-callback/login-callback.component';
 
 // Services Imports
 import { ClientService } from './services/client.service';
 import { AuthService } from './services/auth.service';
-import { LoginCallbackComponent } from './components/login-callback/login-callback.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login-callback', component: LoginCallbackComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'add-client', component: AddClientComponent },
-  { path: 'client/:id', component: ClientDetailsComponent },
-  { path: 'edit-client/:id', component: EditClientComponent }
+  { path: 'add-client', component: AddClientComponent, canActivate: [AuthGuard] },
+  { path: 'client/:id', component: ClientDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'edit-client/:id', component: EditClientComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -56,7 +57,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     ClientService,
-    AuthService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
