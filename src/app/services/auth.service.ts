@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { User, UserManager, Log } from 'oidc-client';
+import 'rxjs/add/observable/fromPromise';
 
 const config: any = {
   authority: 'http://localhost:5000',
@@ -14,34 +15,51 @@ Log.logger = console;
 Log.level = Log.DEBUG;
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnInit {
 
-  mgr: UserManager = new UserManager(config);
+  private manager: UserManager = new UserManager(config);
+  public loginStatusChanged: EventEmitter<User>;
 
-  constructor() { }
+  constructor() {
+    this.loginStatusChanged = new EventEmitter();
+  }
+
+  ngOnInit() {
+
+  }
 
   login() {
-    this.mgr.signinRedirect();
+    this.manager.signinRedirect();
   }
 
   loginCallBack() {
     return Observable.create(observer => {
-      this.mgr.signinRedirectCallback().then(function () {
-        observer.next();
-        observer.complete();
-      }).catch(function (e) {
-        observer.error(e);
-      });
+      Observable.fromPromise(this.manager.signinRedirectCallback())
+        .subscribe(() => {
+          this.tryGetUser().subscribe((user: User) => {
+            this.loginStatusChanged.emit(user);
+            observer.next(user);
+            observer.complete();
+          }, e => {
+            observer.error(e);
+          });
+        });
     });
   }
 
-  check() {
-    this.mgr.getUser().then(function (user) {
-      if (user) {
-        console.log('User logged in', user.profile);
-      } else {
-        console.log('User not logged in');
-      }
+  checkUser() {
+    this.tryGetUser().subscribe((user: User) => {
+      this.loginStatusChanged.emit(user);
+    }, e => {
+      this.loginStatusChanged.emit(null);
     });
+  }
+
+  private tryGetUser() {
+    return Observable.fromPromise(this.manager.getUser());
+  }
+
+  logout() {
+    this.manager.signoutRedirect();
   }
 }

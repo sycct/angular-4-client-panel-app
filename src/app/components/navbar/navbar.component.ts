@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import 'rxjs/add/operator/map';
+import { User } from 'oidc-client';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-navbar',
@@ -8,16 +12,29 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
+  public isLoggedIn: boolean;
+  public loggedInUser: User;
+
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private flashMessagesService: FlashMessagesService
   ) { }
 
   ngOnInit() {
-    // this.authService.check();
+    this.authService.loginStatusChanged.subscribe((user: User) => {
+      this.loggedInUser = user;
+      this.isLoggedIn = !!user;
+    });
+    this.authService.checkUser();
   }
 
   login() {
     this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }
