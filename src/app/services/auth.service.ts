@@ -51,7 +51,7 @@ export class AuthService implements OnInit {
     });
   }
 
-  private tryGetUser() {
+  tryGetUser() {
     return Observable.fromPromise(this.manager.getUser());
   }
 

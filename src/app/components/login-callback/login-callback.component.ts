@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 import { User } from 'oidc-client';
 
 @Component({
@@ -11,16 +10,13 @@ import { User } from 'oidc-client';
 export class LoginCallbackComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.authService.loginCallBack().subscribe(
       (user: User) => {
         if (user) {
-          console.log('login callback user:', user);
-          this.router.navigate(['/']);
           window.location.href = '/';
         }
       }

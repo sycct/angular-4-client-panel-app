@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import 'rxjs/add/operator/map';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import { User } from 'oidc-client';
 import { AuthService } from '../services/auth.service';
 
@@ -14,9 +14,8 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   canActivate(): Observable<boolean> {
-    return this.authService.loginStatusChanged.map((user: User) => {
+    return this.authService.tryGetUser().map((user: User) => {
       if (user) {
-        console.log('can access');
         return true;
       }
       this.authService.login();
