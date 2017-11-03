@@ -5,10 +5,10 @@ import 'rxjs/add/observable/fromPromise';
 
 const config: any = {
   authority: 'http://localhost:5000',
-  client_id: 'corejs',
+  client_id: 'sales',
   redirect_uri: 'http://localhost:4200/login-callback',
   response_type: 'id_token token',
-  scope: 'openid profile coreapi',
+  scope: 'openid profile salesapi',
   post_logout_redirect_uri: 'http://localhost:4200/index.html',
 };
 Log.logger = console;
